@@ -1,0 +1,202 @@
+CREATE TABLE Musteriler(
+	customerID serial primary key,
+	fname varchar(30) NOT NULL,
+	lname varchar(30) NOT NULL,
+	email varchar(50) NOT NULL,
+	passwords varchar(16)
+);
+--password kisitlarini metod icerisinde yazacagim
+--biletlerim kısmında class ve bilet fiyatı karmaşası
+
+--VERILER:
+insert into Musteriler(customerID, fname, lname, email, passwords) values (240040,'Esley','Stanford','esleystanford0101@mail.com','SE240040');
+insert into Musteriler(customerID, fname, lname, email, passwords) values (240041,'Charles','Vettel','vettel5chl@mail.com','champ5lec16');
+insert into Musteriler(customerID, fname, lname, email, passwords) values (240042,'Salaidh', 'Dart','dartsalaidh13@mail.com','SalaidhDart24');
+insert into Musteriler(customerID, fname, lname, email, passwords) values (240043,'Annice','Palk', 'palkannice11@mail.com','12345palk');
+insert into Musteriler(customerID, fname, lname, email, passwords) values (240044,'Lorelai', 'Hollow','hollowlor13@mail.com','glmrs13lr54');
+insert into Musteriler(customerID, fname, lname, email, passwords) values (240045,'Asiye','Aylin','aylinasiye01@mail.com','dpsttpd12');
+insert into Musteriler(customerID, fname, lname, email, passwords) values (240046,'Caroljean', 'Leeder', 'carjj01@mail.com','carol13jean');
+insert into Musteriler(customerID, fname, lname, email, passwords) values (240047,'Minette', 'Rank', 'rankmin16@mail.com','mine61rank');
+insert into Musteriler(customerID, fname, lname, email, passwords) values (240048,'Stefan', 'Farnall', 'FarnallStefan92@mail.com', 'stef17an11');
+insert into Musteriler(customerID, fname, lname, email, passwords) values (240049,'Gabi', 'Brinsden', 'gabigabi17@mail.com', 'gabi17sden');
+
+CREATE TABLE Profil(
+	user_id INT PRIMARY KEY,
+	email VARCHAR(50),
+	mil_durumu INT,
+	phone_number VARCHAR(15),
+	tc_no VARCHAR(11),
+	adres varchar(100)
+);
+--tc noyu varchar olarak almak daha mantıklı geldi
+--profile bir daha fname ve lname eklemeye gerek var mı, musteriler tablosuyla id'yi
+--eslestirdikten sonra o tablodan cekeriz
+
+insert into Profil(user_id,email,mil_durumu,phone_number,tc_no,adres) values 
+(240040,'esleystanford0101@mail.com','1000',05004003000,01010101010,'Ankara/Turkiye'),
+(240041,'vettel5chl@mail.com','1000',05004003001,01010101011,'Istanbul/Turkiye'),
+(240042,'dartsalaidh13@mail.com','1000',05004003002,01010101012,'Istanbul/Turkiye'),
+(240043,'palkannice11@mail.com','1000',05004003003,01010101013,'Istanbul/Turkiye'),
+(240044,'hollowlor13@mail.com','1000',05004003004,01010101014,'Istanbul/Turkiye'),
+(240045,'aylinasiye01@mail.com','1000',05004003005,01010101015,'Trabzon/Turkiye'),
+(240046,'carjj01@mail.com','1000',05004003006,01010101016,'Istanbul/Turkiye'),
+(240047,'rankmin16@mail.com','1000',05004003007,01010101017,'Istanbul/Turkiye'),
+(240048,'FarnallStefan92@mail.com','1000',05004003008,01010101018,'Istanbul/Turkiye'),
+(240049,'gabigabi17@mail.com','1000',05004003009,01010101019,'Istanbul/Turkiye');
+
+
+CREATE TABLE Ucuslar(
+	ucusID INT PRIMARY KEY,
+	ucak_id INT,
+	from_loc varchar(30),
+	to_loc varchar(30),
+	start_at TIME,
+	end_at TIME,
+	yolcu_sayisi INT,
+ 	ucus_tarihi DATE NOT NULL,
+	fiyat NUMERIC(10,2),
+	status VARCHAR(255) DEFAULT 'Aktif'
+);
+
+INSERT INTO Ucuslar (ucusID, ucak_id, from_loc, to_loc, start_at, end_at, yolcu_sayisi, ucus_tarihi, fiyat)
+VALUES
+(1, 101, 'IST', 'TZX', '08:00:00', '09:45:00', 150, '2024-05-08', 250.00),
+(2, 102, 'ESB', 'IST', '13:00:00', '14:10:00', 120, '2024-05-09', 180.50),
+(3, 103, 'IST', 'ESB', '18:00:00', '19:10:00', 100, '2024-05-10', 200.75),
+(4, 104, 'TZX', 'IST', '12:00:00', '13:45:00', 90, '2024-05-11', 300.25),
+(5, 105, 'OGU', 'IST', '17:00:00', '18:45:00', 180, '2024-05-12', 350.00),
+(6, 106, 'SZF', 'MLX', '22:00:00', '01:50:00', 75, '2024-05-13', 150.50),
+(7, 107, 'MLX', 'SZF', '23:00:00', '02:50:00', 80, '2024-05-14', 280.75),
+(8, 108, 'EZS', 'ESB', '20:00:00', '21:20:00', 100, '2024-05-15', 200.00),
+(9, 109, 'ESB', 'EZS', '11:00:00', '12:20:00', 120, '2024-05-16', 220.00),
+(10, 110, 'OGU', 'IST', '08:00:00', '09:45:00', 200, '2024-05-17', 400.00);
+
+--ESB: Esenboğa Ankara
+--TZX :Trabzon Havalimanı
+--IST: İstanbul
+--EZS: Elazığ
+--MLX: Malatya
+--SZF: Samsun
+--OGU: Ordu-Giresun Havalimanı
+--kod yazarken siz ek havalimanları da ekleyebilirsiniz ama belirlenen bütün havalimanlarını not 
+--edelim
+
+CREATE TABLE Biletlerim(
+    bilet_id INT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    ucus_id INT NOT NULL,
+    biletFiyat NUMERIC(10,2),
+    is_booked BOOLEAN,
+    odeme_id INT,
+    odeme_tarihi DATE NOT NULL, 
+    class VARCHAR(20), 
+    status VARCHAR(255) DEFAULT 'Aktif',
+    FOREIGN KEY (customer_id) REFERENCES Musteriler(customerID) ON DELETE CASCADE,
+    FOREIGN KEY (ucus_id) REFERENCES Ucuslar(ucusID) ON DELETE NO ACTION
+);
+
+INSERT INTO Biletlerim (bilet_id, customer_id, ucus_id, biletFiyat, is_booked, odeme_id, odeme_tarihi, class)
+VALUES
+(1101, 240040, 1, 250.00, TRUE, 1011, '2024-04-25', 'ekonomi'),
+(1102, 240041, 2, 250.00, TRUE, 1012, '2024-04-26', 'ekonomi'),
+(1103, 240042, 3, 500.25, TRUE, 1013, '2024-04-27', 'business'),
+(1104, 240043, 4, 500.25, TRUE, 1014, '2024-04-28', 'business'),
+(1105, 240044, 5, 250.00, TRUE, 1015, '2024-04-29', 'ekonomi'),
+(1106, 240045, 6, 500.25, TRUE, 1016, '2024-04-30', 'business'),
+(1107, 240046, 7, 250.00, TRUE, 1017, '2024-05-01', 'ekonomi'),
+(1108, 240047, 8, 250.00, TRUE, 1018, '2024-05-02', 'ekonomi'),
+(1109, 240048, 9, 500.25, TRUE, 1019, '2024-05-03', 'business'),
+(1110, 240049, 10, 500.25, TRUE, 1010, '2024-05-04', 'business'),
+(1111, 240040, 1, 275.00, TRUE, 1021, '2024-05-05', 'ekonomi'),
+(1112, 240040, 2, 285.00, TRUE, 1022, '2024-05-06', 'ekonomi'),
+(1113, 240041, 3, 550.00, TRUE, 1023, '2024-05-07', 'business'),
+(1114, 240041, 4, 560.00, TRUE, 1024, '2024-05-08', 'business'),
+(1115, 240041, 5, 290.00, TRUE, 1025, '2024-05-09', 'ekonomi'),
+(1116, 240042, 6, 570.00, TRUE, 1026, '2024-05-10', 'business'),
+(1117, 240042, 7, 295.00, TRUE, 1027, '2024-05-11', 'ekonomi'),
+(1118, 240042, 8, 305.00, TRUE, 1028, '2024-05-06', 'ekonomi'),
+(1119, 240042, 9, 580.00, TRUE, 1029, '2024-05-07', 'business'),
+(1120, 240043, 10, 590.00, TRUE, 1030, '2024-05-03', 'business'),
+(1121, 240043, 1, 300.00, TRUE, 1031, '2024-05-04', 'ekonomi'),
+(1122, 240043, 2, 310.00, TRUE, 1032, '2024-05-05', 'ekonomi'),
+(1123, 240043, 3, 600.00, TRUE, 1033, '2024-05-10', 'business'),
+(1124, 240043, 4, 610.00, TRUE, 1034, '2024-05-10', 'business'),
+(1125, 240044, 5, 315.00, TRUE, 1035, '2024-05-11', 'ekonomi'),
+(1126, 240045, 6, 620.00, TRUE, 1036, '2024-05-01', 'business'),
+(1127, 240046, 7, 320.00, TRUE, 1037, '2024-05-08', 'ekonomi'),
+(1128, 240047, 8, 330.00, TRUE, 1038, '2024-05-10', 'ekonomi'),
+(1129, 240048, 9, 630.00, TRUE, 1039, '2024-05-12', 'business'),
+(1130, 240048, 10, 640.00, TRUE, 1040, '2024-05-14', 'business');
+
+
+--burada ekonomi ve budiness fiyatlarını sabit yazdım ama kod yazarken yeni ucus eklerken buralara 
+--istenen degerler girilebilir, yanlış anlaşılmasın
+--class variable'ına ekonomi yazılıyorsa kişi ekonomi sınıfını seçmiştir demektir, burada atıyorum 
+--ekonomi butonunu seçince veri tabanına ekonomi stringi gönderilir class columnu için, bu sayede 
+--kişinin seçtiği classı anlamış oluruz.
+
+CREATE TABLE Kredi_Karti(
+	krediKartiId INT PRIMARY KEY,
+	user_id INT,
+	kart_no VARCHAR(16),
+	expire_date DATE,
+	cvv INT,
+	sahip_ismi varchar(30),
+	sahip_soyismi varchar(30),
+	FOREIGN KEY (user_id) REFERENCES Musteriler(customerID) ON DELETE CASCADE
+);
+
+INSERT INTO Kredi_Karti (krediKartiId, user_id, kart_no, expire_date, cvv, sahip_ismi, sahip_soyismi)
+VALUES
+(1, 240040, '1234567890123456', '2025-12-31', 123, 'Esley', 'Stanford'),
+(2, 240041, '9876543210987654', '2028-11-30', 456, 'Charles', 'Vettel'),
+(3, 240042, '1111222233334444', '2024-04-30', 789, 'Salaidh', 'Dart'),
+(4, 240043, '4444333322221111', '2026-09-30', 012, 'Annice', 'Palk'),
+(5, 240044, '5555666677778888', '2029-08-31', 345, 'Lorelai', 'Hollow'),
+(6, 240045, '9999888877776666', '2028-07-31', 678, 'Asiye', 'Aylin'),
+(7, 240046, '3333444455556666', '2026-06-30', 901, 'Caroljean', 'Leeder'),
+(8, 240047, '7777666655554444', '2025-05-31', 234, 'Minette', 'Rank'),
+(9, 240048, '2222111133334444', '2029-04-30', 567, 'Stefan', 'Farnall'),
+(10, 240049, '8888777766665555', '2028-03-31', 890, 'Gabi', 'Brinsden');
+--kart_no'yu int yapınca 16 karakter sigmadigi icin varchar'a cevirdim
+-- DATE : 2024-04-30 (YYYY-MM-DD)
+--salaidh dart'ın kredi kartının skt'sini kullanma suresi dolacakmis gibi ayarladim
+
+CREATE TABLE Admin(
+	nickname varchar(50) NOT NULL,
+	passwords varchar(16) NOT NULL
+);
+
+INSERT INTO Admin (nickname, passwords)
+VALUES
+('aysegulkocak', 'aysegul1234'),
+('ebrukilic', 'ebru5678'),
+('hilalaslan', 'hilal9123'),
+('iremcelik', 'irem4567'),
+('mervecakir', 'merve8912');
+
+
+CREATE TABLE Banka_Bilgileri(
+	krediKartiId INT PRIMARY KEY,
+	user_id INT,
+	kart_no VARCHAR(16),
+	expire_date DATE,
+	cvv INT,
+	sahip_ismi varchar(30),
+	sahip_soyismi varchar(30),
+	para_miktari INT,
+	FOREIGN KEY (user_id) REFERENCES Musteriler(customerID) ON DELETE CASCADE);
+
+
+INSERT INTO Banka_Bilgileri (krediKartiId, user_id, kart_no, expire_date, cvv, sahip_ismi, sahip_soyismi, para_miktari)
+VALUES
+(1, 240040, '1234567890123456', '2025-12-31', 123, 'Esley', 'Stanford', 1500),
+(2, 240041, '9876543210987654', '2028-11-30', 456, 'Charles', 'Vettel', 4000),
+(3, 240042, '1111222233334444', '2024-04-30', 789, 'Salaidh', 'Dart', 7000),
+(4, 240043, '4444333322221111', '2026-09-30', 012, 'Annice', 'Palk', 900),
+(5, 240044, '5555666677778888', '2029-08-31', 345, 'Lorelai', 'Hollow', 5000),
+(6, 240045, '9999888877776666', '2028-07-31', 678, 'Asiye', 'Aylin', 1200),
+(7, 240046, '3333444455556666', '2026-06-30', 901, 'Caroljean', 'Leeder', 300),
+(8, 240047, '7777666655554444', '2025-05-31', 234, 'Minette', 'Rank', 600),
+(9, 240048, '2222111133334444', '2029-04-30', 567, 'Stefan', 'Farnall', 2000),
+(10, 240049, '8888777766665555', '2028-03-31', 890, 'Gabi', 'Brinsden', 3000);
